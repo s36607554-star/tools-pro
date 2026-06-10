@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Data Extractor</title>
+    
+    <!-- Tailwind CSS (via CDN for single-page deployment) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- SheetJS (XLSX) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Custom Tailwind Configuration for "Digital" aesthetic -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0a0a0a',
+                        surface: '#111111',
+                        border: '#2a2a2a',
+                        primary: '#00f0ff',
+                        secondary: '#7000ff'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            background-color: #050505;
+            background-image: radial-gradient(circle at 50% 0%, rgba(112, 0, 255, 0.15), rgba(0, 0, 0, 0) 50%),
+                              radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.1), rgba(0, 0, 0, 0) 40%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(17, 17, 17, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Custom Input Styling */
+        input[type="text"], input[type="number"] {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #00f0ff;
+            background: rgba(0, 240, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+
+        /* Dropzone Hover Effects */
+        #dropzone {
+            transition: all 0.3s ease;
+        }
+        #dropzone:hover {
+            border-color: #00f0ff;
+            background: rgba(0, 240, 255, 0.02);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 sm:p-8">
+
+    <div class="glass-panel rounded-2xl w-full max-w-lg p-6 sm:p-8 relative overflow-hidden z-10" id="main-card">
+        
+        <!-- Header -->
+        <div class="text-center mb-8 elem-anim">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-primary bg-opacity-20 mb-4 shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight">Data Extractor Pro</h1>
+            <p class="text-sm text-gray-400 mt-1">Extract & format numbers from TXT, CSV, or XLSX</p>
+        </div>
+
+        <!-- File Upload Dropzone -->
+        <div class="relative border-2 border-dashed border-gray-700 rounded-xl p-8 text-center cursor-pointer mb-6 elem-anim group" id="dropzone">
+            <input type="file" id="upload" accept=".txt, .xlsx, .xls, .csv" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+            <div class="relative z-10 pointer-events-none text-gray-400 group-hover:text-primary transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <p class="font-medium text-sm text-gray-200" id="file-name-display">Drag & Drop or Click to Browse</p>
+                <p class="text-xs mt-1 opacity-70">Supports .TXT, .CSV, .XLSX</p>
+            </div>
+        </div>
+
+        <!-- Modification Settings (Optional) -->
+        <div class="grid grid-cols-2 gap-4 mb-5 elem-anim">
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Cut Front Digits</label>
+                <input type="number" id="cutInput" min="0" placeholder="e.g. 2" class="w-full rounded-lg px-4 py-2.5 text-sm font-mono placeholder-gray-600">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Add Prefix</label>
+                <input type="text" id="prefixInput" placeholder="e.g. + or 7" class="w-full rounded-lg px-4 py-2.5 text-sm font-mono placeholder-gray-600">
+            </div>
+        </div>
+
+        <!-- Output Settings -->
+        <div class="mb-6 elem-anim">
+            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Output Filename</label>
+            <div class="flex items-center">
+                <input type="text" id="filename" value="formatted_numbers" class="w-full rounded-l-lg px-4 py-2.5 text-sm border-r-0">
+                <span class="bg-gray-800 border border-gray-700 border-l-0 text-gray-400 rounded-r-lg px-4 py-2.5 text-sm font-mono h-full flex items-center">.txt</span>
+            </div>
+        </div>
+
+        <!-- Status Indicator -->
+        <div id="statusBox" class="rounded-lg p-3 mb-6 hidden items-center space-x-3 text-sm font-medium border">
+            <div id="statusIcon"></div>
+            <div id="statusText"></div>
+        </div>
+
+        <!-- Action Button -->
+        <button id="downloadBtn" disabled class="elem-anim w-full relative group overflow-hidden rounded-xl bg-gray-800 text-gray-400 px-6 py-4 font-bold tracking-wide cursor-not-allowed transition-all duration-300">
+            <span class="relative z-10 flex items-center justify-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>Download Result</span>
+            </span>
+            <!-- Hover Gradient Background -->
+            <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0 disabled-hide"></div>
+        </button>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        // DOM Elements
+        const upload = document.getElementById('upload');
+        const cutInput = document.getElementById('cutInput');
+        const prefixInput = document.getElementById('prefixInput');
+        const filenameInput = document.getElementById('filename');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const fileNameDisplay = document.getElementById('file-name-display');
+        
+        const statusBox = document.getElementById('statusBox');
+        const statusText = document.getElementById('statusText');
+        const statusIcon = document.getElementById('statusIcon');
+
+        // State
+        let rawNumbers = [];
+        let finalOutput = "";
+
+        // Initial Load Animation
+        gsap.from(".elem-anim", {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+            delay: 0.1
+        });
+
+        // Helper: Update UI Status
+        function setStatus(type, message) {
+            statusBox.classList.remove('hidden', 'border-gray-700', 'bg-gray-800/50', 'text-gray-400', 'border-green-500/30', 'bg-green-500/10', 'text-green-400', 'border-red-500/30', 'bg-red-500/10', 'text-red-400');
+            
+            if (type === 'processing') {
+                statusBox.classList.add('border-gray-700', 'bg-gray-800/50', 'text-gray-300');
+                statusIcon.innerHTML = `<svg class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            } else if (type === 'success') {
+                statusBox.classList.add('border-green-500/30', 'bg-green-500/10', 'text-green-400');
+                statusIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                gsap.fromTo(statusBox, {scale: 0.95, opacity: 0}, {scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.5)"});
+            } else if (type === 'error') {
+                statusBox.classList.add('border-red-500/30', 'bg-red-500/10', 'text-red-400');
+                statusIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+                gsap.fromTo(statusBox, {x: -5}, {x: 0, duration: 0.3, ease: "rough({strength: 2, points: 10})"});
+            }
+            
+            statusText.innerText = message;
+        }
+
+        // Processing Logic (Re-runs when inputs change)
+        function processData() {
+            if (rawNumbers.length === 0) return;
+
+            const cutCount = parseInt(cutInput.value) || 0;
+            const prefix = prefixInput.value || "";
+
+            let processedList = rawNumbers.map(num => {
+                let formatted = num;
+                // Cut digits from front
+                if (cutCount > 0 && formatted.length > cutCount) {
+                    formatted = formatted.substring(cutCount);
+                } else if (cutCount > 0) {
+                    formatted = ""; // Cut more than length = empty
+                }
+                
+                // Add prefix
+                if (prefix !== "" && formatted !== "") {
+                    formatted = prefix + formatted;
+                }
+                return formatted;
+            }).filter(num => num !== ""); // Remove blanks
+
+            // Remove duplicates and compile
+            const uniqueNumbers = [...new Set(processedList)];
+            
+            if (uniqueNumbers.length > 0) {
+                finalOutput = uniqueNumbers.join('\n');
+                setStatus('success', `Ready! Processed ${uniqueNumbers.length} unique numbers.`);
+                
+                // Enable Button and add styles
+                downloadBtn.disabled = false;
+                downloadBtn.classList.remove('cursor-not-allowed', 'bg-gray-800', 'text-gray-400');
+                downloadBtn.classList.add('text-white', 'bg-gray-700', 'shadow-[0_0_20px_rgba(0,240,255,0.2)]');
+                document.querySelector('.disabled-hide').classList.remove('hidden');
+            } else {
+                setStatus('error', "No valid numbers resulted from the formatting.");
+                disableDownload();
+            }
+        }
+
+        function disableDownload() {
+            downloadBtn.disabled = true;
+            downloadBtn.classList.add('cursor-not-allowed', 'bg-gray-800', 'text-gray-400');
+            downloadBtn.classList.remove('text-white', 'bg-gray-700', 'shadow-[0_0_20px_rgba(0,240,255,0.2)]');
+            document.querySelector('.disabled-hide').classList.add('hidden');
+        }
+
+        // Extract numbers from File
+        upload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            fileNameDisplay.innerText = file.name;
+            fileNameDisplay.classList.add('text-primary');
+            setStatus('processing', 'Reading file...');
+            disableDownload();
+
+            const ext = file.name.split('.').pop().toLowerCase();
+
+            if (ext === 'txt') {
+                // Read TXT
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const text = event.target.result;
+                    const lines = text.split(/\r?\n/);
+                    rawNumbers = [];
+                    
+                    lines.forEach(line => {
+                        let cleanVal = line.trim();
+                        // Allow purely numeric or mostly numeric strings (to allow existing + prefixes if any)
+                        if (cleanVal.length > 0 && /^[\+\d\s\-]+$/.test(cleanVal)) {
+                            // Strip spaces and dashes to standardize
+                            rawNumbers.push(cleanVal.replace(/[\s\-]/g, ''));
+                        }
+                    });
+
+                    if(rawNumbers.length > 0) processData();
+                    else setStatus('error', 'No numbers found in the TXT file.');
+                };
+                reader.readAsText(file);
+            } else {
+                // Read XLSX / CSV
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = new Uint8Array(event.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+                        rawNumbers = [];
+                        rows.forEach(row => {
+                            row.forEach(cell => {
+                                let cleanVal = String(cell).trim();
+                                // Match roughly 5 to 20 digits (more lenient than before to catch all)
+                                if (/^\+?\d{5,20}$/.test(cleanVal)) {
+                                    rawNumbers.push(cleanVal);
+                                }
+                            });
+                        });
+
+                        if (rawNumbers.length > 0) {
+                            processData();
+                        } else {
+                            setStatus('error', "No valid numbers found in the spreadsheet.");
+                        }
+                    } catch (err) {
+                        setStatus('error', "Error reading file: " + err.message);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        // Live Preview: Update when settings change
+        cutInput.addEventListener('input', processData);
+        prefixInput.addEventListener('input', processData);
+
+        // Download Action
+        downloadBtn.addEventListener('click', () => {
+            // Button Click Animation
+            gsap.to(downloadBtn, {scale: 0.95, duration: 0.1, yoyo: true, repeat: 1});
+
+            let name = filenameInput.value.trim();
+            if (!name) name = "formatted_numbers";
+            
+            const blob = new Blob([finalOutput], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = name + ".txt";
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        });
+    </script>
+</body>
+</html>
