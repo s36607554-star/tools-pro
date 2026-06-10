@@ -20,9 +20,9 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: '#0a0a0a',
-                        surface: '#111111',
-                        border: '#2a2a2a',
+                        dark: '#050505',
+                        surface: '#0d0d0d',
+                        border: '#1f1f1f',
                         primary: '#00f0ff',
                         secondary: '#7000ff'
                     },
@@ -39,118 +39,145 @@
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
         
         body {
-            background-color: #050505;
-            background-image: radial-gradient(circle at 50% 0%, rgba(112, 0, 255, 0.15), rgba(0, 0, 0, 0) 50%),
-                              radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.1), rgba(0, 0, 0, 0) 40%);
+            background-color: #030303;
+            background-image: radial-gradient(circle at 50% 0%, rgba(112, 0, 255, 0.18), rgba(0, 0, 0, 0) 50%),
+                              radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.12), rgba(0, 0, 0, 0) 40%);
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
         .glass-panel {
-            background: rgba(17, 17, 17, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: rgba(13, 13, 13, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8),
+                        0 0 50px rgba(0, 240, 255, 0.02);
         }
 
         /* Custom Input Styling */
         input[type="text"], input[type="number"] {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: white;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         input[type="text"]:focus, input[type="number"]:focus {
             outline: none;
             border-color: #00f0ff;
-            background: rgba(0, 240, 255, 0.05);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+            background: rgba(0, 240, 255, 0.03);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
         }
 
         /* Dropzone Hover Effects */
         #dropzone {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         #dropzone:hover {
             border-color: #00f0ff;
-            background: rgba(0, 240, 255, 0.02);
+            background: rgba(0, 240, 255, 0.03);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.05);
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
     </style>
 </head>
 <body class="flex items-center justify-center p-4 sm:p-8">
 
-    <div class="glass-panel rounded-2xl w-full max-w-lg p-6 sm:p-8 relative overflow-hidden z-10" id="main-card">
+    <div class="glass-panel rounded-3xl w-full max-w-xl p-6 sm:p-8 relative overflow-hidden z-10" id="main-card">
         
         <!-- Header -->
         <div class="text-center mb-8 elem-anim">
-            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-primary bg-opacity-20 mb-4 shadow-[0_0_20px_rgba(0,240,255,0.3)]">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-secondary to-primary p-[1px] mb-4 shadow-[0_0_25px_rgba(0,240,255,0.25)]">
+                <div class="w-full h-full bg-[#0d0d0d] rounded-[15px] flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                </div>
             </div>
-            <h1 class="text-2xl font-bold tracking-tight">Data Extractor Pro</h1>
-            <p class="text-sm text-gray-400 mt-1">Extract & format numbers from TXT, CSV, or XLSX</p>
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Data Extractor Pro</h1>
+            <p class="text-sm text-gray-400 mt-1.5">Extract & format phone numbers with ultra-clean precision</p>
         </div>
 
         <!-- File Upload Dropzone -->
-        <div class="relative border-2 border-dashed border-gray-700 rounded-xl p-8 text-center cursor-pointer mb-6 elem-anim group" id="dropzone">
+        <div class="relative border border-dashed border-gray-800 rounded-2xl p-8 text-center cursor-pointer mb-6 elem-anim group" id="dropzone">
             <input type="file" id="upload" accept=".txt, .xlsx, .xls, .csv" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
-            <div class="relative z-10 pointer-events-none text-gray-400 group-hover:text-primary transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                </svg>
-                <p class="font-medium text-sm text-gray-200" id="file-name-display">Drag & Drop or Click to Browse</p>
-                <p class="text-xs mt-1 opacity-70">Supports .TXT, .CSV, .XLSX</p>
+            <div class="relative z-10 pointer-events-none text-gray-500 group-hover:text-primary transition-colors">
+                <div class="w-12 h-12 rounded-full bg-neutral-900/50 flex items-center justify-center mx-auto mb-3 border border-neutral-800/80 group-hover:border-primary/50 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <p class="font-semibold text-sm text-gray-200" id="file-name-display">Drag & drop your list or click to upload</p>
+                <p class="text-xs mt-1.5 opacity-60">Supports text files (.txt), comma-separated (.csv), and sheets (.xlsx)</p>
             </div>
         </div>
 
-        <!-- Modification Settings (Optional) -->
-        <div class="grid grid-cols-2 gap-4 mb-5 elem-anim">
+        <!-- Transformation Controls -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 elem-anim">
             <div>
-                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Cut Front Digits</label>
-                <input type="number" id="cutInput" min="0" placeholder="e.g. 2" class="w-full rounded-lg px-4 py-2.5 text-sm font-mono placeholder-gray-600">
+                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">1. Cut Digits (Front)</label>
+                <input type="number" id="cutInput" min="0" placeholder="e.g. 2 to remove 58" class="w-full rounded-xl px-4 py-3 text-sm font-mono placeholder-neutral-700">
             </div>
             <div>
-                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Add Prefix</label>
-                <input type="text" id="prefixInput" placeholder="e.g. + or 7" class="w-full rounded-lg px-4 py-2.5 text-sm font-mono placeholder-gray-600">
+                <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">2. Add Prefix (Optional)</label>
+                <input type="text" id="prefixInput" placeholder="e.g. +58 or 0" class="w-full rounded-xl px-4 py-3 text-sm font-mono placeholder-neutral-700">
             </div>
         </div>
 
         <!-- Output Settings -->
         <div class="mb-6 elem-anim">
-            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Output Filename</label>
+            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Output Filename</label>
             <div class="flex items-center">
-                <input type="text" id="filename" value="formatted_numbers" class="w-full rounded-l-lg px-4 py-2.5 text-sm border-r-0">
-                <span class="bg-gray-800 border border-gray-700 border-l-0 text-gray-400 rounded-r-lg px-4 py-2.5 text-sm font-mono h-full flex items-center">.txt</span>
+                <input type="text" id="filename" value="formatted_numbers" class="w-full rounded-l-xl px-4 py-3 text-sm border-r-0">
+                <span class="bg-neutral-900 border border-neutral-800 border-l-0 text-gray-400 rounded-r-xl px-4 py-3 text-sm font-mono h-[46px] flex items-center">.txt</span>
             </div>
         </div>
 
         <!-- Status Indicator -->
-        <div id="statusBox" class="rounded-lg p-3 mb-6 hidden items-center space-x-3 text-sm font-medium border">
+        <div id="statusBox" class="rounded-xl p-3 mb-6 hidden items-center space-x-3 text-sm font-medium border">
             <div id="statusIcon"></div>
             <div id="statusText"></div>
         </div>
 
-        <!-- Action Button -->
-        <button id="downloadBtn" disabled class="elem-anim w-full relative group overflow-hidden rounded-xl bg-gray-800 text-gray-400 px-6 py-4 font-bold tracking-wide cursor-not-allowed transition-all duration-300">
-            <span class="relative z-10 flex items-center justify-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                <span>Download Result</span>
-            </span>
-            <!-- Hover Gradient Background -->
-            <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0 disabled-hide"></div>
-        </button>
+        <!-- Live Preview Transformation Box -->
+        <div id="previewContainer" class="hidden mb-6 elem-anim">
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-[11px] font-bold text-primary uppercase tracking-wider">Live Preview (First 5 Rows)</label>
+                <span class="text-[10px] text-gray-500 font-mono">Original ➔ Active Transform</span>
+            </div>
+            <div class="bg-black/50 border border-neutral-900 rounded-xl p-3 font-mono text-xs text-gray-400 divide-y divide-neutral-900/50" id="previewList">
+                <!-- Dynamically populated rows -->
+            </div>
+        </div>
+
+        <!-- BIG VISIBLE ACTION DOWNLOAD BUTTON -->
+        <div class="elem-anim w-full relative mt-8">
+            <!-- Pulsing outer glow ring for ready download button -->
+            <div id="btnGlow" class="absolute -inset-1.5 bg-gradient-to-r from-primary via-secondary to-primary rounded-2xl blur-lg opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+            
+            <button id="downloadBtn" disabled class="relative w-full overflow-hidden rounded-2xl bg-neutral-900 text-neutral-500 border border-neutral-800/80 px-6 py-5 font-bold tracking-wide cursor-not-allowed transition-all duration-300 shadow-2xl flex flex-col items-center justify-center">
+                
+                <!-- Internal Gradient Background overlay for active state -->
+                <div id="btnBackground" class="absolute inset-0 bg-gradient-to-r from-primary via-[#00c8ff] to-secondary opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
+
+                <div class="relative z-10 flex flex-col items-center justify-center space-y-1">
+                    <span class="flex items-center space-x-2.5 text-lg" id="btnMainLabel">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-current transition-transform duration-300 group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        <span id="btnText">Upload File to Start</span>
+                    </span>
+                    <span id="btnSubtext" class="text-xs opacity-75 font-normal tracking-normal">No data loaded yet</span>
+                </div>
+            </button>
+        </div>
 
     </div>
 
@@ -168,6 +195,14 @@
         const statusText = document.getElementById('statusText');
         const statusIcon = document.getElementById('statusIcon');
 
+        const previewContainer = document.getElementById('previewContainer');
+        const previewList = document.getElementById('previewList');
+
+        const btnGlow = document.getElementById('btnGlow');
+        const btnBackground = document.getElementById('btnBackground');
+        const btnText = document.getElementById('btnText');
+        const btnSubtext = document.getElementById('btnSubtext');
+
         // State
         let rawNumbers = [];
         let finalOutput = "";
@@ -177,17 +212,17 @@
             y: 30,
             opacity: 0,
             duration: 0.8,
-            stagger: 0.1,
+            stagger: 0.08,
             ease: "power3.out",
             delay: 0.1
         });
 
         // Helper: Update UI Status
         function setStatus(type, message) {
-            statusBox.classList.remove('hidden', 'border-gray-700', 'bg-gray-800/50', 'text-gray-400', 'border-green-500/30', 'bg-green-500/10', 'text-green-400', 'border-red-500/30', 'bg-red-500/10', 'text-red-400');
+            statusBox.classList.remove('hidden', 'border-gray-800', 'bg-neutral-900/50', 'text-gray-400', 'border-green-500/30', 'bg-green-500/10', 'text-green-400', 'border-red-500/30', 'bg-red-500/10', 'text-red-400');
             
             if (type === 'processing') {
-                statusBox.classList.add('border-gray-700', 'bg-gray-800/50', 'text-gray-300');
+                statusBox.classList.add('border-gray-800', 'bg-neutral-900/50', 'text-gray-300');
                 statusIcon.innerHTML = `<svg class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
             } else if (type === 'success') {
                 statusBox.classList.add('border-green-500/30', 'bg-green-500/10', 'text-green-400');
@@ -202,52 +237,111 @@
             statusText.innerText = message;
         }
 
-        // Processing Logic (Re-runs when inputs change)
+        // Processing Logic (Re-runs dynamically when inputs change)
         function processData() {
             if (rawNumbers.length === 0) return;
 
             const cutCount = parseInt(cutInput.value) || 0;
             const prefix = prefixInput.value || "";
 
-            let processedList = rawNumbers.map(num => {
+            // Track sample preview updates
+            let sampleListHTML = "";
+            let uniquePreviewTracker = new Set();
+            let uniquePreviewCount = 0;
+
+            let processedList = rawNumbers.map((num, idx) => {
                 let formatted = num;
+                
                 // Cut digits from front
                 if (cutCount > 0 && formatted.length > cutCount) {
                     formatted = formatted.substring(cutCount);
                 } else if (cutCount > 0) {
-                    formatted = ""; // Cut more than length = empty
+                    formatted = ""; // Cut amount matches or exceeds content
                 }
                 
                 // Add prefix
                 if (prefix !== "" && formatted !== "") {
                     formatted = prefix + formatted;
                 }
-                return formatted;
-            }).filter(num => num !== ""); // Remove blanks
 
-            // Remove duplicates and compile
+                // Compile preview for up to first 5 valid numbers
+                if (formatted !== "" && uniquePreviewCount < 5 && !uniquePreviewTracker.has(formatted)) {
+                    uniquePreviewTracker.add(formatted);
+                    sampleListHTML += `
+                        <div class="flex justify-between items-center py-2 px-1">
+                            <span class="text-neutral-600 line-through truncate max-w-[150px]">${num}</span>
+                            <span class="text-neutral-500 text-[10px]">➔</span>
+                            <span class="text-primary font-bold font-mono text-sm tracking-wider">${formatted}</span>
+                        </div>
+                    `;
+                    uniquePreviewCount++;
+                }
+
+                return formatted;
+            }).filter(num => num !== ""); // Remove invalid or cut blanks
+
+            // Compile deduplicated, finalized numbers
             const uniqueNumbers = [...new Set(processedList)];
             
             if (uniqueNumbers.length > 0) {
                 finalOutput = uniqueNumbers.join('\n');
-                setStatus('success', `Ready! Processed ${uniqueNumbers.length} unique numbers.`);
+                setStatus('success', `File processed successfully. Found ${uniqueNumbers.length} unique numbers.`);
                 
-                // Enable Button and add styles
-                downloadBtn.disabled = false;
-                downloadBtn.classList.remove('cursor-not-allowed', 'bg-gray-800', 'text-gray-400');
-                downloadBtn.classList.add('text-white', 'bg-gray-700', 'shadow-[0_0_20px_rgba(0,240,255,0.2)]');
-                document.querySelector('.disabled-hide').classList.remove('hidden');
+                // Populate and reveal Live Preview container
+                previewList.innerHTML = sampleListHTML;
+                previewContainer.classList.remove('hidden');
+                gsap.fromTo(previewContainer, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 });
+
+                // Transform Download Button to ACTIVE STATE
+                enableDownload(uniqueNumbers.length);
             } else {
-                setStatus('error', "No valid numbers resulted from the formatting.");
+                setStatus('error', "No valid numbers resulted from the current extraction settings.");
                 disableDownload();
             }
         }
 
+        function enableDownload(numCount) {
+            downloadBtn.disabled = false;
+            
+            // Adjust visual aesthetics
+            downloadBtn.classList.remove('cursor-not-allowed', 'bg-neutral-900', 'text-neutral-500', 'border-neutral-800/80');
+            downloadBtn.classList.add('text-[#050505]', 'border-transparent', 'shadow-[0_0_40px_rgba(0,240,255,0.25)]');
+            
+            btnText.innerText = `DOWNLOAD NOW (${numCount.toLocaleString()} NUMBERS)`;
+            btnSubtext.innerText = `File: ${filenameInput.value || "formatted_numbers"}.txt`;
+
+            // GSAP Glowing Animation Sequence
+            gsap.killTweensOf(btnGlow);
+            gsap.to(btnGlow, { opacity: 0.65, duration: 0.4 });
+            gsap.to(btnBackground, { opacity: 1, duration: 0.4 });
+
+            // Create loop pulsing glow effect
+            gsap.to(btnGlow, {
+                scale: 1.025,
+                opacity: 0.85,
+                duration: 1.2,
+                yoyo: true,
+                repeat: -1,
+                ease: "sine.inOut"
+            });
+        }
+
         function disableDownload() {
             downloadBtn.disabled = true;
-            downloadBtn.classList.add('cursor-not-allowed', 'bg-gray-800', 'text-gray-400');
-            downloadBtn.classList.remove('text-white', 'bg-gray-700', 'shadow-[0_0_20px_rgba(0,240,255,0.2)]');
-            document.querySelector('.disabled-hide').classList.add('hidden');
+            
+            // Revert visual aesthetics
+            downloadBtn.classList.add('cursor-not-allowed', 'bg-neutral-900', 'text-neutral-500', 'border-neutral-800/80');
+            downloadBtn.classList.remove('text-[#050505]', 'border-transparent', 'shadow-[0_0_40px_rgba(0,240,255,0.25)]');
+            
+            btnText.innerText = "Upload File to Start";
+            btnSubtext.innerText = "No data loaded yet";
+            
+            previewContainer.classList.add('hidden');
+
+            // Kill glowing animation sequence
+            gsap.killTweensOf(btnGlow);
+            gsap.to(btnGlow, { opacity: 0, scale: 1, duration: 0.3 });
+            gsap.to(btnBackground, { opacity: 0, duration: 0.3 });
         }
 
         // Extract numbers from File
@@ -257,13 +351,13 @@
 
             fileNameDisplay.innerText = file.name;
             fileNameDisplay.classList.add('text-primary');
-            setStatus('processing', 'Reading file...');
+            setStatus('processing', 'Parsing files for phone numbers...');
             disableDownload();
 
             const ext = file.name.split('.').pop().toLowerCase();
 
             if (ext === 'txt') {
-                // Read TXT
+                // Read text file line by line
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     const text = event.target.result;
@@ -272,19 +366,18 @@
                     
                     lines.forEach(line => {
                         let cleanVal = line.trim();
-                        // Allow purely numeric or mostly numeric strings (to allow existing + prefixes if any)
                         if (cleanVal.length > 0 && /^[\+\d\s\-]+$/.test(cleanVal)) {
-                            // Strip spaces and dashes to standardize
+                            // Normalize line to only digits/plus prefix
                             rawNumbers.push(cleanVal.replace(/[\s\-]/g, ''));
                         }
                     });
 
                     if(rawNumbers.length > 0) processData();
-                    else setStatus('error', 'No numbers found in the TXT file.');
+                    else setStatus('error', 'Could not locate any valid numeric values inside this TXT file.');
                 };
                 reader.readAsText(file);
             } else {
-                // Read XLSX / CSV
+                // Read CSV / Excel Spreadsheet
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     try {
@@ -297,7 +390,6 @@
                         rows.forEach(row => {
                             row.forEach(cell => {
                                 let cleanVal = String(cell).trim();
-                                // Match roughly 5 to 20 digits (more lenient than before to catch all)
                                 if (/^\+?\d{5,20}$/.test(cleanVal)) {
                                     rawNumbers.push(cleanVal);
                                 }
@@ -307,24 +399,29 @@
                         if (rawNumbers.length > 0) {
                             processData();
                         } else {
-                            setStatus('error', "No valid numbers found in the spreadsheet.");
+                            setStatus('error', "No valid numbers found within the active sheet.");
                         }
                     } catch (err) {
-                        setStatus('error', "Error reading file: " + err.message);
+                        setStatus('error', "Failed parsing spreadsheet format: " + err.message);
                     }
                 };
                 reader.readAsArrayBuffer(file);
             }
         });
 
-        // Live Preview: Update when settings change
+        // Live Transformations listeners
         cutInput.addEventListener('input', processData);
         prefixInput.addEventListener('input', processData);
+        filenameInput.addEventListener('input', () => {
+            if (!downloadBtn.disabled) {
+                btnSubtext.innerText = `File: ${filenameInput.value || "formatted_numbers"}.txt`;
+            }
+        });
 
         // Download Action
         downloadBtn.addEventListener('click', () => {
-            // Button Click Animation
-            gsap.to(downloadBtn, {scale: 0.95, duration: 0.1, yoyo: true, repeat: 1});
+            // Satisfying download click micro-feedback
+            gsap.to(downloadBtn, { scale: 0.96, duration: 0.1, yoyo: true, repeat: 1 });
 
             let name = filenameInput.value.trim();
             if (!name) name = "formatted_numbers";
